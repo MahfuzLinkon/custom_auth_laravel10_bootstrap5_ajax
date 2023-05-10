@@ -15,6 +15,15 @@ class LoginCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (!session()->has('loggedInUser') && ($request->path() != '/' && $request->path() != '/register')){
+            return redirect('/');
+        }
+        if (session()->has('loggedInUser') && ($request->path() == '/' || $request->path() == '/register')){
+            return back();
+        }
+        return $next($request)
+            ->header('cache-control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expire', 'Sat 01 Jan 1990 00:00:00 GMT');
     }
 }

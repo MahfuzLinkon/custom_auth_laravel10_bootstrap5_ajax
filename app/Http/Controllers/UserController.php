@@ -16,6 +16,9 @@ class UserController extends Controller
 
     public function register()
     {
+        if (session()->has('loggedInUser')){
+            return redirect()->back();
+        }
         return view('auth.register');
     }
 
