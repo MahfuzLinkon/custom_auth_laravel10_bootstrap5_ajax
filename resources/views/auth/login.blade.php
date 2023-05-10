@@ -9,6 +9,7 @@
                        <h3 class="fw-bold text-secondary text-center">Login</h3>
                    </div>
                    <div class="card-body p-5">
+                       <div id="login_alert"></div>
                        <form action="" method="post" id="login_form">
                            @csrf
                            <div class="mb-3">
@@ -20,7 +21,7 @@
                                <div class="invalid-feedback"></div>
                            </div>
                            <div class="mb-3">
-                               <a href="{{ route('auth.forgot-password') }}" class="text-decoration-none">Forgot Password ?</a>
+                               <a href="{{ route('forgot-password') }}" class="text-decoration-none">Forgot Password ?</a>
                                <div class="invalid-feedback"></div>
                            </div>
                            <div class="mb-3 d-grid">
@@ -28,7 +29,7 @@
                                <div class="invalid-feedback"></div>
                            </div>
                            <div class="text-center text-secondary">
-                               <div>Don't have an account? <a href="{{ route('auth.register') }}" class="text-decoration-none">Register Here</a></div>
+                               <div>Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none">Register Here</a></div>
                            </div>
                        </form>
                    </div>
@@ -36,4 +37,37 @@
            </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function (){
+            $(document).on('submit', '#login_form', function (e){
+                e.preventDefault();
+                $('#login_btn').val('Loading...');
+                // $('#login_btn').prop('disabled', true);
+                $.ajax({
+                    url: "{{ route('auth.login') }}",
+                    method: 'post',
+                    data: $(this).serialize(),
+                    // dataType: 'json',
+                    success: function (response){
+                        // console.log(response);
+                        if(response.status == 400){
+                            showError('email', response.messages.email);
+                            showError('password', response.messages.password);
+                            $('#login_alert').html('');
+                            $('#login_btn').val('Login');
+                        } else if(response.status == 401){
+                            $('#login_alert').html(showMessage('warning',response.message));
+                            removeValidationClasses('#login_form');
+                            $('#login_btn').val('Login');
+                        } else if (response.status == 200){
+                            window.location = '{{ route('auth.profile') }}'
+                        }
+                    } // End success
+                }); // End Ajax
+            })
+        });
+    </script>
 @endsection

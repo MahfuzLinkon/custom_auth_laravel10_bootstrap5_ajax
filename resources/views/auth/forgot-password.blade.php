@@ -24,7 +24,7 @@
                                 <div class="invalid-feedback"></div>
                             </div>
                             <div class="text-center text-secondary">
-                                <div>Back to <a href="{{ route('auth.login') }}" class="text-decoration-none">Login page</a></div>
+                                <div>Back to <a href="{{ route('login') }}" class="text-decoration-none">Login page</a></div>
                             </div>
                         </form>
                     </div>
