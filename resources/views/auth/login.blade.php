@@ -63,7 +63,7 @@
                             removeValidationClasses('#login_form');
                             $('#login_btn').val('Login');
                         } else if (response.status == 200){
-                            window.location = '{{ route('auth.profile') }}'
+                            window.location = '{{ route('auth.dashboard') }}'
                         }
                     } // End success
                 }); // End Ajax
