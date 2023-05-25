@@ -5,11 +5,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/register' ,[UserController::class, 'register'])->name('register');
-Route::get('/forgot-password' ,[UserController::class, 'forgotPassword'])->name('forgot-password');
-Route::get('/reset-password' ,[UserController::class, 'resetPassword'])->name('reset-password');
-Route::get('/reset-password' ,[UserController::class, 'resetPassword'])->name('reset-password');
+Route::get('/forgot-password' ,[UserController::class, 'forgot'])->name('forgot-password');
+Route::get('/reset-password/{email}/{token}' ,[UserController::class, 'resetPassword'])->name('reset');
+Route::post('/reset-password' ,[UserController::class, 'updatePassword'])->name('update.password');
+
 Route::post('/register' ,[UserController::class, 'registerUser'])->name('register');
 Route::post('/login' ,[UserController::class, 'loginUser'])->name('auth.login');
+
+Route::post('/forgot-password' ,[UserController::class, 'forgotPassword'])->name('auth.forgot-password');
+
 
 
 Route::group(['middleware' => 'LoginCheck'], function (){

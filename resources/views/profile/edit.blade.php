@@ -24,7 +24,6 @@
                             <div class="col-lg-8 px-5">
                                 <form action="#" id="profile_update_form" method="post">
                                     @csrf
-
                                     <div class="my-2">
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" name="name" id="name" value="{{ $userInfo->name }}" class="form-control rounded-0">

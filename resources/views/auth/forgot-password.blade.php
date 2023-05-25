@@ -9,7 +9,8 @@
                         <h3 class="fw-bold text-secondary text-center">Forgot Password</h3>
                     </div>
                     <div class="card-body p-5">
-                        <form action="" method="post" id="forgot_password_form">
+                        <div id="forgot_alert"></div>
+                        <form action="#" method="post" id="forgot_password_form">
                             @csrf
                             <div class="mb-3 text-secondary">
                                 Enter your e-mail address, and we will send you password reset link.
@@ -32,4 +33,37 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function (){
+            $("#forgot_password_form").submit(function (e){
+                e.preventDefault();
+                $('#forgot_password_btn').val('Loading...');
+                $.ajax({
+                    url: '{{ route('auth.forgot-password') }}',
+                    method: 'post',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (response){
+                        // console.log(response);
+                        if(response.status == 400){
+                            showError('email', response.messages.email)
+                            $('#forgot_password_btn').val('Reset Password');
+                        }else if(response.status == 200){
+                            $("#forgot_alert").html(showMessage('success', response.message));
+                            $('#forgot_password_btn').val('Reset Password');
+                            removeValidationClasses("#forgot_password_form");
+                            $("#forgot_password_form")[0].reset();
+                        }else {
+                            $("#forgot_alert").html(showMessage('warning', response.message));
+                            $('#forgot_password_btn').val('Reset Password');
+                            removeValidationClasses("#forgot_password_form");
+                        }
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

@@ -52,7 +52,7 @@
                     data: $(this).serialize(),
                     // dataType: 'json',
                     success: function (response){
-                        // console.log(response);
+                        console.log(response);
                         if(response.status == 400){
                             showError('email', response.messages.email);
                             showError('password', response.messages.password);
